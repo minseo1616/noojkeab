@@ -11,60 +11,35 @@
 #include <vector>
 #include <queue>
 using namespace std;
+int dy[41] = {0,};
 
-int n, m, v;
-bool visitdfs[1001] = {0, };
-bool visitbfs[1001] = {0, };
-vector<int> vec[1001];
-
-void dfs(int a) {
-    visitdfs[a] = true;
-    cout << a << " ";
-    for(int i=0;i<vec[a].size();i++){
-        if(!visitdfs[vec[a][i]]){
-            dfs(vec[a][i]);
-        }
-    }
+int fibo(int a){
+    if(dy[a] > 0)
+        return dy[a];
+    if(a == 0)
+        return 0;
+    else if(a == 1)
+        return 1;
+    else
+        return dy[a] = fibo(a-2) + fibo(a-1);
 }
 
-void bfs(int a){
-    queue<int> q;
-    q.push(a);
-    visitbfs[a] = true;
-    
-    while(!q.empty()){
-        int x = q.front();
-        q.pop();
-        cout << x << " ";
-        for(int i=0;i<vec[x].size();i++){
-            if(!visitbfs[vec[x][i]]){
-                q.push(vec[x][i]);
-                visitbfs[vec[x][i]] = true;
-            }
-        }
-    }
-}
 int main(int argc, const char * argv[]) {
     cin.tie(NULL);
     ios::sync_with_stdio(false);
     
-    int a, b;
-
-    cin >> n >> m >> v;
+    int t, n;
+    cin >> t;
     
-    for(int i=0;i<m;i++){
-        cin >> a >> b;
-        vec[a].push_back(b);
-        vec[b].push_back(a);
+    for(int i=0;i<t;i++){
+        cin >> n;
+        if(n == 0)
+            cout << "1 0" << "\n";
+        else
+            cout << fibo(n-1) << " " << fibo(n) << "\n";
     }
     
-    for(int i=0;i<n;i++){
-        sort(vec[i].begin(), vec[i].end());
-    }
     
-    dfs(v);
-    cout << "\n";
-    bfs(v);
     
     return 0;
 }
